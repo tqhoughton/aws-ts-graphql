@@ -1,0 +1,53 @@
+{
+  "name": "aws-starter-ts",
+  "version": "1.0.0",
+  "description": "AWS starter template",
+  "scripts": {
+    "tsc": "tsc --noEmit",
+    "deploy": "./deploy/deploy.sh",
+    "yaml": "ts-node ./deploy/yaml.ts",
+    "build": "webpack --config deploy/webpack.config.js",
+    "build:layers": "./deploy/layers.sh",
+    "test": "npx jest",
+    "test:verbose": "ENABLE_LOGGING=1 npm run test",
+    "destroy": "./deploy/destroy.sh",
+    "list-buckets": "aws s3 ls"
+  },
+  "author": "Turner Houghton",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server-lambda": "^2.19.1",
+    "graphql": "^15.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-typescript": "^7.12.1",
+    "@types/aws-lambda": "^8.10.64",
+    "@types/lodash": "^4.14.162",
+    "awesome-typescript-loader": "^5.2.1",
+    "aws-sdk": "^2.783.0",
+    "babel-jest": "^26.6.1",
+    "glob": "^7.1.6",
+    "husky": "^4.3.7",
+    "jest": "^26.6.1",
+    "js-yaml": "^3.14.0",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.4.2",
+    "ts-loader": "^8.0.7",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-node-externals": "^2.5.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,css,md,yaml}": "prettier --write"
+  }
+}

@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: My Description
+Globals:
+  Function:
+    Runtime: nodejs12.x
+    Timeout: 5
+    Handler: index.handler
+Resources:
+  GqlHandlerLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: !Sub '${AWS::StackName}-GqlHandler'
+      Description: Dependencies for the gql handler
+      ContentUri: ./build/layers/gql/
+      CompatibleRuntimes:
+        - nodejs12.x
+  HttpApiFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-GqlHandler'
+      CodeUri: ./build/lambdas/gql/
+      Layers:
+        - !Ref GqlHandlerLayer
+      Events:
+        ApiGet:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Method: ANY
+            Path: /{proxy+}
+            TimeoutInMillis: 5000
+            PayloadFormatVersion: "1.0"
+
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
